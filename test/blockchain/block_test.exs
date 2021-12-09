@@ -1,10 +1,10 @@
-defmodule ExChain.BlockChain.BlockTest do
+defmodule ExChain.Blockchain.BlockTest do
   @moduledoc """
     This module contains test related to a block
   """
 
   use ExUnit.Case
-  alias ExChain.BlockChain.Block
+  alias ExChain.Blockchain.Block
 
   describe "block" do
     test "genesis is valid" do
