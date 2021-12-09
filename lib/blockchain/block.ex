@@ -43,6 +43,11 @@ defmodule ExChain.Blockchain.Block do
     __MODULE__.new(get_timestamp(), last_hash, data)
   end
 
+  def block_hash(%__MODULE__{timestamp: timestamp, last_hash: last_hash, data: data} = _block) do
+    data = "#{timestamp}:#{last_hash}:#{Jason.encode!(data)}"
+    Base.encode16(:crypto.hash(:sha256, data))
+  end
+
   # private functions
   defp add_timestamp(%__MODULE__{} = block, timestamp), do: %{block | timestamp: timestamp}
 
@@ -55,7 +60,10 @@ defmodule ExChain.Blockchain.Block do
   end
 
   #private functions
-  defp get_timestamp(), do: DateTime.utc_now() |> DateTime.to_unix(1_000_000)
+  defp get_timestamp() do
+    DateTime.utc_now()
+    |> DateTime.to_unix(1_000_000)
+  end
 
   defp hash(timestamp, last_hash, data) do
     data = "#{timestamp}:#{last_hash}:#{Jason.encode!(data)}"
